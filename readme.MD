@@ -82,3 +82,30 @@
 ```php
     protected function makeMigration(string $name, string $template) : void
 ```
+
+Доступные шаблоны:
+
+<table>
+<tr><th>Название</th><th>Описание</th><th>Алиасы</th></tr>
+<tr>
+    <td>`default`</td>
+    <td>Чистый шаблон по умолчанию</td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>`query`</td>
+    <td>Произвольный запрос в БД</td>
+    <td></td>
+</tr>
+<tr>
+    <td>`add_table`</td>
+    <td>Создание таблицы через</td>
+    <td>`create_table`</td>
+</tr>
+<tr>
+    <td>`delete_table`</td>
+    <td>Удаление таблицы</td>
+    <td>`drop_table`</td>
+</tr>
+</table>
