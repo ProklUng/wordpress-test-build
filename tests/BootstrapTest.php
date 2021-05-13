@@ -2,8 +2,7 @@
 
 namespace Prokl\WordpressCi\Tests;
 
-use Prokl\WordpressCi\Bootstrap;
-use Prokl\WordpressCi\Tests\Base\WordpressableTestCase;
+use Prokl\WordpressCi\Base\WordpressableTestCase;
 
 /**
  * Class BootstrapTest

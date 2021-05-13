@@ -1,9 +1,9 @@
 <?php
 
-namespace Prokl\WordpressCi\Tests\Base;
+namespace Prokl\WordpressCi\Base;
 
 use Exception;
-use PHPUnit\Framework\TestCase;
+use Prokl\TestingTools\Base\BaseTestCase;
 use Prokl\WordpressCi\Bootstrap;
 use Prokl\WordpressCi\ClassUtils;
 use Prokl\WordpressCi\Database;
@@ -14,10 +14,10 @@ use Prokl\WordpressCi\Tests\Traits\ResetDatabaseTrait;
 use Prokl\WordpressCi\Tests\Traits\UseMigrationsTrait;
 
 /**
- * Class BitrixableTestCase
+ * Class WordpressableTestCase
  * @package Prokl\BitrixTestingTools\Base
  */
-class WordpressableTestCase extends TestCase
+class WordpressableTestCase extends BaseTestCase
 {
     /**
      * @var boolean $dropBase Сбрасывать ли базу после каждого теста.

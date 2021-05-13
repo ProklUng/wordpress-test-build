@@ -1,6 +1,6 @@
 {
   "name": "proklung/wordpress-test-build",
-  "description": "Minimal build of Wordpress for teasting + tools",
+  "description": "Minimal build of Wordpress for testing + tools",
   "type": "library",
   "license": "Unlicense",
   "authors": [
@@ -22,9 +22,7 @@
   "require": {
     "php": ">=7.1",
     "proklung/wp.migrations": "^1.0",
+    "proklung/phpunit-testing-tools": "^1.0",
     "ext-mysqli": "*"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "~7 | ~8 | ~9"
   }
 }
