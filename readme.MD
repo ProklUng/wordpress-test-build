@@ -1,0 +1,84 @@
+# Wordpress в виде минимальной сборки для нужд тестирования + инструменты
+
+**INTERNAL**
+
+## Установка
+
+1) composer.json:
+
+```json
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/proklung/wordpress-test-build"
+    }
+  ]
+```
+
+2) `composer require proklung/wordpress-test-build`
+
+## Нюансы
+
+На текущий момент внутри русская версия `5.7.2` Wordpress.
+
+Базовый класс для тестов - `WordpressableTestCase`. Запускает, приложенный к пакету Wordpress и позволяет использовать в тестах
+его API.
+
+Параметры доступа к БД определяются в методе `setupDatabaseData` базового класса `WordpressableTestCase`.
+
+Если база на момент запуска не существует, то будет создана.
+
+По умолчанию:
+
+```php
+    protected function setupDatabaseData() : void
+    {
+        putenv('MYSQL_HOST=localhost');
+        putenv('MYSQL_DATABASE=wordpress_ci');
+        putenv('MYSQL_USER=root');
+        putenv('MYSQL_PASSWORD=');
+    }
+```
+
+### Управление
+
+#### Трэйт ResetDatabaseTrait
+
+Указание сбрасывать базу перед каждым тестом и загружать по новой.
+
+#### Трэйт CustomDumpTrait
+
+Сбрасывать базу и загружать кастомный дамп базы. 
+
+Путь к дампу указывается в методе `getDumpPath` теста:
+
+```php
+    protected function getDumpPath() : string
+    {
+        return $_SERVER['DOCUMENT_ROOT'] . '/Tests/dump/dump.sql';
+    }
+
+```
+Действует только в сочетании с `ResetDatabaseTrait`.
+
+#### Трэйт UseMigrationsTrait
+
+Указание запускать миграции перед каждым тестом. 
+
+Под капотом урезанная версия [пакета](https://github.com/ProklUng/wp.migrations), так что подходят миграции и от него. 
+Миграция наследуется не от класса `Arrilot\BitrixMigrations\BaseMigrations\WordpressMigration`.
+
+Путь к директории с миграциями указывается в методе `getMigrationsDir` теста:
+
+```php
+    protected function getMigrationsDir() : string
+    {
+        return __DIR__ . '/../migrations';
+    }
+```
+
+К трэйту приложен метод-хелпер `makeMigration` для создания миграций по шаблону.
+
+```php
+    protected function makeMigration(string $name, string $template) : void
+```
