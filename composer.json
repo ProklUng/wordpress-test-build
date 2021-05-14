@@ -23,6 +23,8 @@
     "php": ">=7.1",
     "proklung/wp.migrations": "^1.0",
     "proklung/phpunit-testing-tools": "^1.0",
+    "szepeviktor/phpstan-wordpress": "^0.7.1",
+    "10up/wp_mock": "0.4.2",
     "ext-mysqli": "*"
   }
 }
