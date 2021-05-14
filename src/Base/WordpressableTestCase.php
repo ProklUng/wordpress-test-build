@@ -9,9 +9,9 @@ use Prokl\WordpressCi\ClassUtils;
 use Prokl\WordpressCi\Database;
 use Prokl\WordpressCi\Migrations\ArrilotMigratorProcessor;
 use Prokl\WordpressCi\Migrator;
-use Prokl\WordpressCi\Tests\Traits\CustomDumpTrait;
-use Prokl\WordpressCi\Tests\Traits\ResetDatabaseTrait;
-use Prokl\WordpressCi\Tests\Traits\UseMigrationsTrait;
+use Prokl\WordpressCi\Traits\CustomDumpTrait;
+use Prokl\WordpressCi\Traits\ResetDatabaseTrait;
+use Prokl\WordpressCi\Traits\UseMigrationsTrait;
 
 /**
  * Class WordpressableTestCase

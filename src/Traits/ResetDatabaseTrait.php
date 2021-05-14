@@ -1,11 +1,11 @@
 <?php
 
-namespace Prokl\WordpressCi\Tests\Traits;
+namespace Prokl\WordpressCi\Traits;
 
 /**
  * Trait ResetDatabaseTrait
  * Сбрасывать базу перед каждым тестом.
- * @package Prokl\WordpressCi\Tests\Traits
+ * @package Prokl\WordpressCi\Traits
  *
  * @since 24.04.2021
  */
