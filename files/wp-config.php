@@ -18,8 +18,6 @@
  * @package WordPress
  */
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 // ** Параметры MySQL: Эту информацию можно получить у вашего хостинг-провайдера ** //
 /** Имя базы данных для WordPress */
 define( 'DB_NAME', getenv('MYSQL_DATABASE', true) ?: getenv('MYSQL_DATABASE') );
@@ -79,6 +77,8 @@ $table_prefix = 'wp_';
  * @link https://ru.wordpress.org/support/article/debugging-in-wordpress/
  */
 define( 'WP_DEBUG', false );
+
+define('ALLOW_UNFILTERED_UPLOADS', true);
 
 /* Это всё, дальше не редактируем. Успехов! */
 
