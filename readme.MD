@@ -109,3 +109,7 @@
     <td>`drop_table`</td>
 </tr>
 </table>
+
+#### Прочее
+
+1) Метод `getWordpressBaseDir` - путь к месту, где лежит Wordpress.

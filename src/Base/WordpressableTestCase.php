@@ -77,6 +77,16 @@ class WordpressableTestCase extends BaseTestCase
     }
 
     /**
+     * Путь, где находится Wordpress.
+     *
+     * @return string
+     */
+    protected function getWordpressBaseDir() : string
+    {
+        return __DIR__. '../../files';
+    }
+
+    /**
      * Параметры подключения к тестовой базе.
      *
      * @return void
