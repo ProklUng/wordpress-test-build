@@ -136,6 +136,7 @@
     {
         parent::setUp();
 
+        static::$pluginSrcDir =  __DIR__ . '/files';
         static::$plugins = [
             'advanced-custom-fields' => 'advanced-custom-fields/acf.php'
         ];
