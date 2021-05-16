@@ -12,6 +12,7 @@ use Prokl\WordpressCi\Migrator;
 use Prokl\WordpressCi\Traits\CustomDumpTrait;
 use Prokl\WordpressCi\Traits\ResetDatabaseTrait;
 use Prokl\WordpressCi\Traits\UseMigrationsTrait;
+use Prokl\WordpressCi\WpInitializer;
 
 /**
  * Class WordpressableTestCase
@@ -61,6 +62,11 @@ class WordpressableTestCase extends BaseTestCase
             $migrator->createMigrationsTable();
             $migrator->migrate();
         }
+
+        $initializer = new WpInitializer();
+
+        // Подмена фэйкера экземпляром с провайдерами Wordpress и Picsum.
+        $this->faker= $initializer->getGenerator();
     }
 
     /**

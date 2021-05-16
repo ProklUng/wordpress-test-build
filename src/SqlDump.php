@@ -11,6 +11,9 @@ use InvalidArgumentException;
  */
 class SqlDump
 {
+    /**
+     * @var string $filePath
+     */
     private $filePath;
 
     /**
