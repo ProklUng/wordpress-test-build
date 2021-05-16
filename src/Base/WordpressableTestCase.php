@@ -52,6 +52,14 @@ class WordpressableTestCase extends BaseTestCase
 
         Bootstrap::bootstrap();
 
+        $initializer = new WpInitializer();
+
+        // Если используется трэйт ActivatePluginsTrait, то установить и активировать плагины
+        if (method_exists($this, 'activatePlugins')) {
+            $this->activatePlugins();
+        }
+
+
         // Миграции
         if ($this->useMigrations()) {
             $migrator = new ArrilotMigratorProcessor();
@@ -62,8 +70,6 @@ class WordpressableTestCase extends BaseTestCase
             $migrator->createMigrationsTable();
             $migrator->migrate();
         }
-
-        $initializer = new WpInitializer();
 
         // Подмена фэйкера экземпляром с провайдерами Wordpress и Picsum.
         $this->faker= $initializer->getGenerator();

@@ -118,7 +118,6 @@
 плагинов.
 
 Определяются два свойства:
-
 - `pluginSrcDir` - путь к директории, где лежат исходники плагинов (для копирования)
 - `plugins` - массив вида 'директория с плагином' => путь к основному файлу плагина. Задается в конечном тесте:
 
@@ -134,15 +133,112 @@
    // Скопирует ACF плагин из папки __DIR__ . '/files' в папку, где лежит Wordpress.
    protected function setUp(): void
     {
-        parent::setUp();
-
+        // Важно задать параметры перед вызовом родителя.
         static::$pluginSrcDir =  __DIR__ . '/files';
         static::$plugins = [
             'advanced-custom-fields' => 'advanced-custom-fields/acf.php'
         ];
+
+        parent::setUp();
     }
 ```
 
 #### Прочее
 
 1) Статический метод `getWordpressBaseDir` - путь к месту, где лежит Wordpress.
+
+2) Провайдеры данных для Faker:
+
+##### Wordpress
+
+- `permalink` - путь к посту по ID
+- `fileContent` - контент файла
+- `uploadDir` - путь к аплоаду
+- `postId` - случайный ID поста
+- `attachmentId` - случайная картинка
+- `userId` - случайный ID пользователя
+- `termId` - случайная таксономия (категория, тэг)
+
+##### Picsum
+
+- `picsum` - Картинка из picsum. Возвращает путь к загруженной картинке в рамках Wordpress.
+
+
+#### Простой генератор тестового контента
+
+Использование в миграциях
+
+```php
+   public function up()
+    {
+        $faker = Helper::getFaker();
+
+        AttachmentRepository::create(10); // 10 картинок
+        TermRepository::create(10, 'category'); // 10 категорий
+        TermRepository::create(5, 'post_tag'); // 10 тэгов
+        UserRepository::create(5); // 5 пользователей
+
+        // АСF поля. То, что отдает плагин ACF.
+        acf_add_local_field_group(array(
+            'key' => 'group_5e12e975546ec',
+            'title' => 'Видео',
+            'fields' => array(
+                array(
+                    'key' => 'field_5e130144fa51a',
+                    'label' => 'Видео элемент',
+                    'name' => 'video_element',
+                    'type' => 'relationship',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'post_type' => array(
+                        0 => 'myvideo',
+                    ),
+                    'taxonomy' => '',
+                    'filters' => array(
+                        0 => 'search',
+                        1 => 'post_type',
+                        2 => 'taxonomy',
+                    ),
+                    'elements' => array(
+                        0 => 'featured_image',
+                    ),
+                    'min' => '',
+                    'max' => '',
+                    'return_format' => 'object',
+                ),
+            ),
+            'location' => array(
+                array(
+                    array(
+                        'param' => 'post_type',
+                        'operator' => '==',
+                        'value' => 'post',
+                    ),
+                ),
+            ),
+            'menu_order' => 0,
+            'position' => 'normal',
+            'style' => 'default',
+            'label_placement' => 'top',
+            'instruction_placement' => 'label',
+            'hide_on_screen' => array(
+                0 => 'discussion',
+            ),
+            'active' => true,
+            'description' => '',
+        ));
+
+        // 10 постов с картинками и acf полями.
+        PostRepository::create(10, [
+            'acf' => [
+                'video_element' => $faker->postId()
+            ]
+        ]);
+    }
+```
