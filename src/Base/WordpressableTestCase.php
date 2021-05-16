@@ -81,7 +81,7 @@ class WordpressableTestCase extends BaseTestCase
      *
      * @return string
      */
-    protected function getWordpressBaseDir() : string
+    protected static function getWordpressBaseDir() : string
     {
         return __DIR__. '/../../files';
     }

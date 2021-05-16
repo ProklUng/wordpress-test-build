@@ -110,6 +110,38 @@
 </tr>
 </table>
 
+#### Трэйт ActivatePluginsTrait
+
+Некоторые популярные плагины (WTF?!) не могут быть установлены с помощью композера. Приходится воротить всякое.
+
+Трэйт с функционалом (метод `activatePlugins`) инсталляции (копирование из заданной папки) и активации
+плагинов.
+
+Определяются два свойства:
+
+- `pluginSrcDir` - путь к директории, где лежат исходники плагинов (для копирования)
+- `plugins` - массив вида 'директория с плагином' => путь к основному файлу плагина. Задается в конечном тесте:
+
+```php
+
+    protected static function getWordpressBaseDir() : string
+    {
+        return __DIR__. '/../../files';
+    }
+
+   protected static $pluginSrcDir = __DIR__ . '/files';
+
+   // Скопирует ACF плагин из папки __DIR__ . '/files' в папку, где лежит Wordpress.
+   protected function setUp(): void
+    {
+        parent::setUp();
+
+        static::$plugins = [
+            'advanced-custom-fields' => 'advanced-custom-fields/acf.php'
+        ];
+    }
+```
+
 #### Прочее
 
-1) Метод `getWordpressBaseDir` - путь к месту, где лежит Wordpress.
+1) Статический метод `getWordpressBaseDir` - путь к месту, где лежит Wordpress.
