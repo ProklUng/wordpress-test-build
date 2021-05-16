@@ -169,6 +169,11 @@
 Использование в миграциях
 
 ```php
+    use Prokl\WordpressCi\FixtureGenerator\Repository\AttachmentRepository;
+    use Prokl\WordpressCi\FixtureGenerator\Repository\PostRepository;
+    use Prokl\WordpressCi\FixtureGenerator\Repository\TermRepository;
+    use Prokl\WordpressCi\FixtureGenerator\Repository\UserRepository;
+
    public function up()
     {
         $faker = Helper::getFaker();
