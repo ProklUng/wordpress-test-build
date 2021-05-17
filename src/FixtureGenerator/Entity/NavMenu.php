@@ -21,13 +21,13 @@ class NavMenu extends Term
             set_theme_mod('nav_menu_locations', $locations);
         }
 
-        return true;
+        return 1;
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function delete()
+    public static function delete() : int
     {
         $query = new WP_Term_Query([
             'taxonomy'   => 'nav_menu',
@@ -42,7 +42,7 @@ class NavMenu extends Term
         ]);
 
         if (empty($query->terms)) {
-            return false;
+            return 0;
         }
 
         foreach ($query->terms as $id) {
@@ -52,8 +52,7 @@ class NavMenu extends Term
             }
             wp_delete_term($id, $term->taxonomy);
         }
-        $count = count($query->terms);
 
-        return true;
+        return count($query->terms);
     }
 }

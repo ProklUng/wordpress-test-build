@@ -24,10 +24,10 @@ class NavMenuItem extends Post
     /**
      * {@inheritdoc}
      */
-    public function persist()
+    public function persist() : int
     {
         if (!$this->ID) {
-            return false;
+            return 0;
         }
 
         // Change post before updating
@@ -52,10 +52,10 @@ class NavMenuItem extends Post
             wp_delete_post($this->ID, true);
             $this->setCurrentId(false);
 
-            return false;
+            return 0;
         }
 
-        return true;
+        return 1;
     }
 
     private function transformData(array $data)

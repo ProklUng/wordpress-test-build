@@ -11,7 +11,7 @@ abstract class Entity implements EntityInterface
     /**
      * Meta.
      *
-     * @var array
+     * @var array $meta
      */
     public $meta;
 
@@ -95,7 +95,7 @@ abstract class Entity implements EntityInterface
     /**
      * [filterProperties description].
      *
-     * @return bool
+     * @return void
      */
     protected function filterProperties()
     {
@@ -110,7 +110,7 @@ abstract class Entity implements EntityInterface
      *
      * @return array
      */
-    private function filterData($array) : array
+    private function filterData(array $array) : array
     {
         /** @var mixed $v */
         return array_filter($array, function ($v) {

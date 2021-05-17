@@ -41,10 +41,10 @@ class Comment extends Entity
     /**
      * {@inheritdoc}
      */
-    public function persist()
+    public function persist() : int
     {
         if (!$this->comment_ID) {
-            return false;
+            return 0;
         }
 
         // Update entity
@@ -55,7 +55,7 @@ class Comment extends Entity
             wp_delete_comment($this->comment_ID, true);
             $this->setCurrentId(false);
 
-            return false;
+            return 0;
         }
 
         // Save meta
@@ -64,13 +64,13 @@ class Comment extends Entity
             update_comment_meta($this->comment_ID, $meta_key, $meta_value);
         }
 
-        return true;
+        return $this->comment_ID;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function exists($id)
+    public function exists(int $id) : bool
     {
         global $wpdb;
 
@@ -85,7 +85,7 @@ class Comment extends Entity
     /**
      * {@inheritdoc}
      */
-    public function setCurrentId($id)
+    public function setCurrentId(int $id) : void
     {
         $this->comment_ID = $id;
     }
@@ -93,7 +93,7 @@ class Comment extends Entity
     /**
      * {@inheritdoc}
      */
-    public static function delete()
+    public static function delete() : int
     {
         $query = new WP_Comment_Query([
             'fields'     => 'ids',
@@ -112,6 +112,7 @@ class Comment extends Entity
         foreach ($query->comments as $id) {
             wp_delete_comment($id, true);
         }
-        $count = count($query->comments);
+
+        return count($query->comments);
     }
 }

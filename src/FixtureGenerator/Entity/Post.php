@@ -38,7 +38,7 @@ class Post extends Entity
     /**
      * {@inheritdoc}
      */
-    public function create()
+    public function create() : int
     {
         $this->ID = wp_insert_post([
             'post_title'  => sprintf('post-%s', uniqid()),
@@ -53,10 +53,10 @@ class Post extends Entity
     /**
      * {@inheritdoc}
      */
-    public function persist()
+    public function persist() : int
     {
         if (!$this->ID) {
-            return false;
+            return 0;
         }
 
         // Remove tax input and save it, terms will be added later
@@ -75,7 +75,7 @@ class Post extends Entity
             wp_delete_post($this->ID, true);
             $this->setCurrentId(false);
 
-            return false;
+            return 0;
         }
 
         // Save terms
@@ -99,14 +99,7 @@ class Post extends Entity
                 }
 
                 // Add terms
-                $tt_ids = wp_set_object_terms($post_id, $terms, $taxonomy);
-
-                // Add fake flag to created terms
-                // foreach ($terms as $term) {
-                //     if (($term_obj = get_term_by('name', $term, $taxonomy)) !== false) {
-                //         update_term_meta($term_obj->term_id, '_fake', true);
-                //     }
-                // }
+                wp_set_object_terms($post_id, $terms, $taxonomy);
             }
         }
 
@@ -127,13 +120,13 @@ class Post extends Entity
             }
         }
 
-        return true;
+        return $this->ID;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function exists($id)
+    public function exists(int $id) : bool
     {
         global $wpdb;
 
@@ -148,7 +141,7 @@ class Post extends Entity
     /**
      * {@inheritdoc}
      */
-    public function setCurrentId($id)
+    public function setCurrentId(int $id) : void
     {
         $this->ID = $id;
     }
@@ -156,7 +149,7 @@ class Post extends Entity
     /**
      * {@inheritdoc}
      */
-    public static function delete()
+    public static function delete() : int
     {
         global $wpdb;
 
@@ -166,7 +159,7 @@ class Post extends Entity
             FROM {$wpdb->prefix}posts
         ");
         if (!$types) {
-            return false;
+            return 0;
         }
 
         // Filter out posts that have their own delete handlers.
@@ -188,15 +181,14 @@ class Post extends Entity
         ]);
 
         if (empty($query->posts)) {
-            return false;
+            return 0;
         }
 
         // Delete posts
         foreach ($query->posts as $id) {
             wp_delete_post($id, true);
         }
-        $count = count($query->posts);
 
-        return true;
+        return count($query->posts);
     }
 }

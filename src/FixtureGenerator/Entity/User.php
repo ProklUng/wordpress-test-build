@@ -36,7 +36,7 @@ class User extends Entity
     /**
      * {@inheritdoc}
      */
-    public function create()
+    public function create() : int
     {
         $this->ID = wp_insert_user([
             'user_login' => sprintf('user-%s', uniqid()),
@@ -50,10 +50,10 @@ class User extends Entity
     /**
      * {@inheritdoc}
      */
-    public function persist()
+    public function persist() : int
     {
         if (!$this->ID) {
-            return false;
+            return 0;
         }
 
         if (!$this->user_nicename) {
@@ -68,7 +68,7 @@ class User extends Entity
             wp_delete_user($this->ID);
             $this->setCurrentId(false);
 
-            return false;
+            return 0;
         }
 
         // Only way to update user login
@@ -89,13 +89,13 @@ class User extends Entity
             }
         }
 
-        return true;
+        return $this->ID;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function exists($id)
+    public function exists(int $id) : bool
     {
         global $wpdb;
 
@@ -110,7 +110,7 @@ class User extends Entity
     /**
      * {@inheritdoc}
      */
-    public function setCurrentId($id)
+    public function setCurrentId(int $id) : void
     {
         $this->ID = $id;
     }
@@ -118,7 +118,7 @@ class User extends Entity
     /**
      * {@inheritdoc}
      */
-    public static function delete()
+    public static function delete() : int
     {
         $query = new WP_User_Query([
             'fields'     => 'ID',
@@ -131,14 +131,13 @@ class User extends Entity
         ]);
 
         if (empty($query->results)) {
-            return false;
+            return 0;
         }
 
         foreach ($query->results as $id) {
             wp_delete_user($id);
         }
-        $count = count($query->results);
 
-        return true;
+        return count($query->results);
     }
 }

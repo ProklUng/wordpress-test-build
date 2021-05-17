@@ -13,33 +13,33 @@ interface EntityInterface
      *
      * @param int $id
      */
-    public function setCurrentId($id);
+    public function setCurrentId(int $id) : void;
 
     /**
      * Check if entity.
      *
-     * @param int $id
+     * @param integer $id
      *
-     * @return bool
+     * @return boolean
      */
-    public function exists($id);
+    public function exists(int $id) : bool;
 
     /**
      * Create object.
      *
-     * @return int Database ID
+     * @return integer Database ID
      */
-    public function create();
+    public function create() : int;
 
     /**
      * Persist object.
      *
-     * @return bool
+     * @return integer
      */
-    public function persist();
+    public function persist() : int;
 
     /**
      * Delete fixtures.
      */
-    public static function delete();
+    public static function delete() : int;
 }

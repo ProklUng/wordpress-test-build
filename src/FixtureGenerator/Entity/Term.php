@@ -2,6 +2,8 @@
 
 namespace Prokl\WordpressCi\FixtureGenerator\Entity;
 
+use RuntimeException;
+use WP_Error;
 use WP_Term_Query;
 
 /**
@@ -21,14 +23,15 @@ class Term extends Entity
     /**
      * {@inheritdoc}
      */
-    public function create()
+    public function create() : int
     {
         $term = wp_insert_term(sprintf('term-%s', uniqid()), $this->taxonomy);
         if (is_wp_error($term)) {
             $this->setCurrentId(false);
-
-            return $term;
+            /** @var WP_Error $term */
+            throw new RuntimeException($term->get_error_message());
         }
+
         $this->term_id = $term['term_id'];
         update_term_meta($this->term_id, '_fake', true);
 
@@ -38,10 +41,10 @@ class Term extends Entity
     /**
      * {@inheritdoc}
      */
-    public function persist()
+    public function persist() : int
     {
         if (!$this->term_id) {
-            return false;
+            return 0;
         }
 
         // Change taxonomy before updating term
@@ -69,7 +72,7 @@ class Term extends Entity
             wp_delete_term($this->term_id, $this->taxonomy);
             $this->setCurrentId(false);
 
-            return false;
+            return 0;
         }
 
         // Save meta
@@ -86,13 +89,13 @@ class Term extends Entity
             }
         }
 
-        return true;
+        return $this->term_id;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function exists($id)
+    public function exists(int $id) : bool
     {
         global $wpdb;
 
@@ -107,7 +110,7 @@ class Term extends Entity
     /**
      * {@inheritdoc}
      */
-    public function setCurrentId($id)
+    public function setCurrentId(int $id) : void
     {
         $this->term_id = $id;
     }
@@ -115,7 +118,7 @@ class Term extends Entity
     /**
      * {@inheritdoc}
      */
-    public static function delete()
+    public static function delete() : int
     {
         $query = new WP_Term_Query([
             'fields'     => 'ids',
@@ -129,7 +132,7 @@ class Term extends Entity
         ]);
 
         if (empty($query->terms)) {
-            return false;
+            return 0;
         }
 
         foreach ($query->terms as $id) {
@@ -143,8 +146,7 @@ class Term extends Entity
             }
             wp_delete_term($id, $term->taxonomy);
         }
-        $count = count($query->terms);
 
-        return true;
+        return count($query->terms);
     }
 }

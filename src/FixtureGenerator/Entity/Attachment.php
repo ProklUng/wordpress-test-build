@@ -17,7 +17,7 @@ class Attachment extends Post
     /**
      * {@inheritdoc}
      */
-    public function create()
+    public function create() : int
     {
         $this->ID = wp_insert_post([
             'post_title'  => sprintf('attachment-%s', uniqid()),
@@ -25,12 +25,14 @@ class Attachment extends Post
             'post_status' => $this->post_status,
         ]);
         update_post_meta($this->ID, '_fake', true);
+
+        return $this->ID;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function persist()
+    public function persist() : int
     {
         include_once ABSPATH.'wp-admin/includes/image.php';
         include_once ABSPATH.'wp-admin/includes/media.php';
@@ -42,7 +44,7 @@ class Attachment extends Post
 
             wp_delete_attachment($this->ID, true);
 
-            return false;
+            return 0;
         }
 
         $file_name  = basename($this->file);
@@ -50,7 +52,7 @@ class Attachment extends Post
         $upload_dir = wp_upload_dir();
 
         // Image has been saved to sys temp dir
-        if (false === strpos($this->file, $upload_dir['basedir'])) {
+        if (strpos($this->file, $upload_dir['basedir']) === false) {
             $upload = wp_upload_bits($file_name, null, file_get_contents($this->file));
 
             if ($upload['error']) {
@@ -58,7 +60,7 @@ class Attachment extends Post
 
                 $this->setCurrentId(false);
 
-                return false;
+                return 0;
             } else {
                 $this->file = $upload['file'];
             }
@@ -96,7 +98,7 @@ class Attachment extends Post
             wp_delete_attachment($this->ID, true);
             $this->setCurrentId(false);
 
-            return false;
+            return 0;
         }
 
         // Generate attachment metadata
@@ -111,7 +113,7 @@ class Attachment extends Post
     /**
      * {@inheritdoc}
      */
-    public static function delete()
+    public static function delete() : int
     {
         $query = new WP_Query([
             'fields'     => 'ids',
@@ -127,12 +129,13 @@ class Attachment extends Post
         ]);
 
         if (empty($query->posts)) {
-            return false;
+            return 0;
         }
 
         foreach ($query->posts as $id) {
             wp_delete_attachment($id, true);
         }
-        $count = count($query->posts);
+
+        return count($query->posts);
     }
 }
