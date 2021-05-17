@@ -65,7 +65,13 @@ class PostRepository
     {
         for ($i = 0; $i <= $count; $i++) {
             $postManager = new Post();
-            $postManager->post_content = $this->faker->realText(1500);
+
+            $length = 1500;
+            if (array_key_exists('post_content_length', $payload)) {
+                $length = (int)$payload['post_content_length'] = 7000;
+            }
+
+            $postManager->post_content = $this->faker->realText($length);
             $postManager->post_name = $this->faker->slug();
             $postManager->post_title = $this->faker->realText(150);
             $postManager->post_category = $this->faker->termId();
