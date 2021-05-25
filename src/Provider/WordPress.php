@@ -162,7 +162,7 @@ class WordPress extends Base
      *
      * @since 26.12.2020
      */
-    public function getUrlRandomPicture() : string
+    public function urlRandomPicture() : string
     {
         $arData = wp_get_attachment_image_src($this->randomIdPicture(), 'full');
 
@@ -204,7 +204,7 @@ class WordPress extends Base
      *
      * @since 26.12.2020
      */
-    public function getRandomIdPostMassive(int $qty, string $type = 'post') : array
+    public function randomIdPostMassive(int $qty, string $type = 'post') : array
     {
         $result = [];
         for ($i = 0; $i<$qty; $i++) {
@@ -258,7 +258,7 @@ class WordPress extends Base
      *
      * @return integer
      */
-    public function getRandomIdPostWithContentWp(
+    public function randomIdPostWithContentWp(
         int $minLength = 650,
         string $postType = 'post'
     ): int {
@@ -355,7 +355,7 @@ class WordPress extends Base
      *
      * @return integer
      */
-    public function getRandomIdPostWithoutPictureWp(string $postType = 'post'): int
+    public function randomIdPostWithoutPictureWp(string $postType = 'post'): int
     {
         $args = [
             'post_type' => $postType,
@@ -407,7 +407,7 @@ class WordPress extends Base
      *
      * @since 26.12.2020
      */
-    public function getRandomIdByMetaValue(
+    public function randomIdByMetaValue(
         string $metaKey,
         $metaValue
     ): int {
@@ -442,7 +442,7 @@ class WordPress extends Base
      *
      * @since 26.12.2020
      */
-    public function getRandomIdByNotMetaValue(
+    public function randomIdByNotMetaValue(
         string $metaKey
     ): int {
         $args = [
@@ -486,7 +486,7 @@ class WordPress extends Base
      *
      * @since 26.12.2020
      */
-    public function getRandomTagSlugWithoutPicture() : string
+    public function randomTagSlugWithoutPicture() : string
     {
         do {
             $slug = $this->randomTagSlug();
