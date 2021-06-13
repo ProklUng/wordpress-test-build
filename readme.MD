@@ -40,6 +40,9 @@
     }
 ```
 
+Класс `WordpressableAjaxTestCase` - особый случай для тестирования нативных ajax-обработчиков. По аналогии
+c [WP_Ajax_UnitTestCase](https://codesymphony.co/wp-ajax-plugin-unit-testing/).
+
 ### Управление
 
 #### Трэйт ResetDatabaseTrait
