@@ -116,10 +116,14 @@ class WordpressableAjaxTestCase extends WordpressableTestCase
     ];
 
     /**
-     * @inheritDoc
+     * Sets up the test fixture.
+     *
+     * Overrides wp_die(), pretends to be Ajax, and suppresses E_WARNINGs.
      */
-    public static function setUpBeforeClass() : void
+    protected function setUp() : void
     {
+        parent::setUp();
+
         remove_action('admin_init', '_maybe_update_core');
         remove_action('admin_init', '_maybe_update_plugins');
         remove_action('admin_init', '_maybe_update_themes');
@@ -131,21 +135,9 @@ class WordpressableAjaxTestCase extends WordpressableTestCase
             }
         }
 
-        parent::setUpBeforeClass();
-    }
-
-    /**
-     * Sets up the test fixture.
-     *
-     * Overrides wp_die(), pretends to be Ajax, and suppresses E_WARNINGs.
-     */
-    protected function setUp() : void
-    {
         require_once ABSPATH . '/wp-admin/includes/screen.php';
         require_once ABSPATH . '/wp-admin/includes/class-wp-screen.php';
         require_once ABSPATH . '/wp-admin/includes/template.php';
-
-        parent::setUp();
 
         add_filter('wp_doing_ajax', '__return_true');
         add_filter('wp_die_ajax_handler', [$this, 'wpDieHandler'], 1, 1);
