@@ -141,6 +141,10 @@ class WordpressableAjaxTestCase extends WordpressableTestCase
      */
     protected function setUp() : void
     {
+        require_once ABSPATH . '/wp-admin/includes/screen.php';
+        require_once ABSPATH . '/wp-admin/includes/class-wp-screen.php';
+        require_once ABSPATH . '/wp-admin/includes/template.php';
+
         parent::setUp();
 
         add_filter('wp_doing_ajax', '__return_true');

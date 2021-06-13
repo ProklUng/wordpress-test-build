@@ -231,7 +231,7 @@ class WordpressableTestCase extends BaseTestCase
         $globals = ['wp_actions', 'wp_current_filter'];
         foreach ($globals as $key) {
             if (isset(self::$hooks_saved[$key])) {
-                $GLOBALS[ $key ] = self::$hooks_saved[$key];
+                $GLOBALS[$key] = self::$hooks_saved[$key];
             }
         }
 
