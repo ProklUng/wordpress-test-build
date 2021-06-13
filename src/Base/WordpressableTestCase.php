@@ -101,8 +101,10 @@ class WordpressableTestCase extends BaseTestCase
 
         global $wpdb;
 
-        $wpdb->suppress_errors = false;
-        $wpdb->show_errors     = true;
+        if (is_object($wpdb)) {
+            $wpdb->suppress_errors = false;
+            $wpdb->show_errors     = true;
+        }
 
         $class = get_called_class();
 
@@ -207,12 +209,16 @@ class WordpressableTestCase extends BaseTestCase
     {
         $globals = ['wp_actions', 'wp_current_filter'];
         foreach ($globals as $key) {
-            self::$hooks_saved[$key] = $GLOBALS[$key];
+            if (array_key_exists($key, $GLOBALS)) {
+                self::$hooks_saved[$key] = $GLOBALS[$key];
+            }
         }
 
         self::$hooks_saved['wp_filter'] = [];
-        foreach ($GLOBALS['wp_filter'] as $hook_name => $hook_object) {
-            self::$hooks_saved['wp_filter'][$hook_name] = clone $hook_object;
+        if (array_key_exists('wp_filter', $GLOBALS)) {
+            foreach ($GLOBALS['wp_filter'] as $hook_name => $hook_object) {
+                self::$hooks_saved['wp_filter'][$hook_name] = clone $hook_object;
+            }
         }
     }
 
