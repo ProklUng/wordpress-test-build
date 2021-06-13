@@ -41,7 +41,7 @@
 ```
 
 Класс `WordpressableAjaxTestCase` - особый случай для тестирования нативных ajax-обработчиков. По аналогии
-c [WP_Ajax_UnitTestCase](https://codesymphony.co/wp-ajax-plugin-unit-testing/).
+c [WP_Ajax_UnitTestCase](https://infinum.com/handbook/books/wordpress/automated-testing-in-wordpress/basic-tests-using-phpunit/integration-testing#testing-ajax-callbacks).
 
 ### Управление
 
