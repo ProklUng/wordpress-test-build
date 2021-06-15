@@ -344,48 +344,6 @@ class WordpressableTestCase extends BaseTestCase
     }
 
     /**
-     * Flushes the WordPress object cache.
-     *
-     * @return void
-     */
-    public static function flushCache() : void
-    {
-        global $wp_object_cache;
-
-        $wp_object_cache->group_ops = [];
-        $wp_object_cache->stats = [];
-        $wp_object_cache->memcache_debug = [];
-        $wp_object_cache->cache = [];
-
-        if (method_exists($wp_object_cache, '__remoteset')) {
-            $wp_object_cache->__remoteset();
-        }
-
-        wp_cache_flush();
-        wp_cache_add_global_groups([
-            'users',
-            'userlogins',
-            'usermeta',
-            'user_meta',
-            'useremail',
-            'userslugs',
-            'site-transient',
-            'site-options',
-            'blog-lookup',
-            'blog-details',
-            'rss',
-            'global-posts',
-            'blog-id-cache',
-            'networks',
-            'sites',
-            'site-details',
-            'blog_meta',
-        ]);
-
-        wp_cache_add_non_persistent_groups(['comment', 'counts', 'plugins']);
-    }
-
-    /**
      * Clean up any registered meta keys.
      *
      * @since 5.1.0
