@@ -4,6 +4,7 @@ namespace Prokl\WordpressCi\Base;
 
 use Exception;
 use Prokl\TestingTools\Base\BaseTestCase;
+use Prokl\WordpressCi\Traits\WordpressTrait;
 use Prokl\WordpressCi\Bootstrap;
 use Prokl\WordpressCi\ClassUtils;
 use Prokl\WordpressCi\Database;
@@ -24,6 +25,8 @@ use WP_Error;
  */
 class WordpressableTestCase extends BaseTestCase
 {
+    use WordpressTrait;
+
     /**
      * @var array $hooks_saved Бэкап хуков.
      */

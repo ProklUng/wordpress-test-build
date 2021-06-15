@@ -49,6 +49,8 @@ class WpInitializer
         // Disable comment notifications
         add_filter('notify_post_author', '__return_false', PHP_INT_MAX);
         add_filter('notify_moderator', '__return_false', PHP_INT_MAX);
+
+        update_option( 'permalink_structure', '/%year%/%monthnum%/%day%/%postname%/');
     }
 
     /**
