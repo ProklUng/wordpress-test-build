@@ -146,6 +146,24 @@ c [WP_Ajax_UnitTestCase](https://infinum.com/handbook/books/wordpress/automated-
     }
 ```
 
+#### Дополнительно
+
+Мигрирован кое-какой функционал из [пакета](https://github.com/wp-phpunit/wp-phpunit).
+
+- Метод `goTo` класса `WordpressableTestCase`. Эмулирует (с выставлением всех нужных глобалов) нахождение на такой-то странице.
+  
+```php
+        $this->goTo('/?p=26799'); // Url - только так, без ЧПУ
+        $this->assertTrue(is_single());  
+```
+
+- Ассерты `assertWPError` и `assertNotWPError`. 
+- Ассерт `assertQueryTrue`: "Checks each of the WP_Query is_* functions/properties against expected boolean value".
+- Метод `scanUserUploads` - все файлы в директории с аплоадом.  
+- Метод `setPermalinkStructure`
+- Метод `makeAttachment(array $upload, int $parent_post_id = 0)` - создать аттачмент.
+- Метод `updatePostModified(int $post_id, string $date)`
+
 #### Прочее
 
 1) Статический метод `getWordpressBaseDir` - путь к месту, где лежит Wordpress.
